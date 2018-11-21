@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.VolumeClassInfoDao">
+
+	<resultMap type="Volume_classInfo" id="VolumeClassInfoMap">
+		<association property="novel" column="novelid"
+			select="jsdx.zr.dao.NovelDao.findNovelById" />
+		<collection property="seclist" column="volume_classid"
+			select="jsdx.zr.dao.SectionInfoDao.findSectionInfoByVolumeId" />
+	</resultMap>
+
+	<select id="findVolumeClassInfo" parameterType="map"
+		resultMap="VolumeClassInfoMap">
+		select
+		* from t_volume_classinfo
+		<where>
+			<if test="novelid != null">
+				 novelid = #{novelid}
+			</if>
+		</where>
+		<if test="begin != null">
+			limit #{begin},#{end}
+		</if>
+	</select>
+
+	<select id="findVolumeClassInfoById" parameterType="int"
+		resultMap="VolumeClassInfoMap">
+		select
+		* from t_volume_classinfo where volume_classid = #{id}
+	</select>
+
+	<update id="update" parameterType="Volume_classInfo">
+		update t_volume_classinfo set
+		volume_classname =#{volume_classname} where volume_classid
+		=#{volume_classid}
+	</update>
+	
+	<insert id="add"  parameterType="Volume_classInfo" useGeneratedKeys="true"
+		keyProperty="volume_classid">
+		insert into t_volume_classinfo(novelid,volume_classname) values(#{novel.novelid},"正文");
+	</insert>
+</mapper> 

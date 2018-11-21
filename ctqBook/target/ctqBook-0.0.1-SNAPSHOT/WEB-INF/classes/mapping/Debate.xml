@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.DebateDao">
+	<resultMap type="Debate" id="DebateMap">
+		<association property="note" column="note_id"
+			select="jsdx.zr.dao.NoteDao.findNoteById" />
+		<association property="user" column="user_id"
+			select="jsdx.zr.dao.UserDao.findUserById" />
+	</resultMap>
+
+	<select id="findDebate" parameterType="map" resultMap="DebateMap">
+		select b.* from t_note a inner join t_debate b on a.note_id =
+		b.note_id
+		where
+		<if test="novelid != null">a.novelid = #{novelid} and b.status = 1 order by
+			a.create_date desc
+		</if>
+		<if test="noteid != null">b.note_id=#{noteid}</if>
+		limit #{begin},#{end}
+	</select>
+
+	<select id="findDebateById" parameterType="int" resultMap="DebateMap">
+		select * from t_debate where debate_id =#{id}
+	</select>
+	
+	<insert id="add" parameterType="Debate">
+		insert into t_debate(note_id,user_id,ncontext) values(#{note.note_id},#{user.userID},#{ncontext})
+	</insert>
+</mapper> 

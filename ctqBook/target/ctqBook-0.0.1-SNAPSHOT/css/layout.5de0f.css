@@ -1,0 +1,257 @@
+@charset 'UTF-8'; 
+
+.box-center {
+	width: 1200px;
+	margin-right: auto;
+	margin-left: auto
+}
+
+@media ( max-width :1200px) {
+	.box-center {
+		width: 990px;
+		margin: 0 auto
+	}
+	.respon {
+		display: none
+	}
+}
+
+.fl {
+	float: left
+}
+
+.fr {
+	float: right
+}
+
+.mr0 {
+	margin-right: 0
+}
+
+.mr10 {
+	margin-right: 10px
+}
+
+.mr30 {
+	margin-right: 30px
+}
+
+.mb10 {
+	margin-bottom: 10px
+}
+
+.mb20 {
+	margin-bottom: 20px
+}
+
+.mb30 {
+	margin-bottom: 30px
+}
+
+.mb35 {
+	margin-bottom: 35px
+}
+
+.mb40 {
+	margin-bottom: 40px
+}
+
+.mb45 {
+	margin-bottom: 45px
+}
+
+.mb50 {
+	margin-bottom: 50px
+}
+
+.mb60 {
+	margin-bottom: 60px
+}
+
+.hidden {
+	display: none
+}
+
+.cf {
+	zoom: 1
+}
+
+.cf:after, .cf:before {
+	display: table;
+	content: ''
+}
+
+.cf:after {
+	clear: both
+}
+
+.dib-wrap {
+	font-size: 0
+}
+
+.dib-wrap a, .dib-wrap span {
+	display: inline-block;
+	vertical-align: middle;
+	letter-spacing: normal;
+	word-spacing: normal
+}
+
+.dib-box a, .dib-box span {
+	display: inline-block;
+	vertical-align: middle;
+	letter-spacing: normal;
+	word-spacing: normal
+}
+
+.red-btn {
+	position: relative;
+	z-index: 1;
+	text-align: center;
+	color: #fff;
+	border-color: #bf2c24;
+	background: #bf2c24
+}
+
+.red-btn:hover {
+	color: #fff;
+	border-color: #ed4259;
+	background: #ed4259
+}
+
+.red-btn.disabled {
+	cursor: default;
+	color: #fff;
+	border-color: #a6a6a6;
+	background: #a6a6a6
+}
+
+.red-btn .la-ball-spin-clockwise {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -8px 0 0 -8px
+}
+
+.blue-btn {
+	position: relative;
+	z-index: 1;
+	text-align: center;
+	color: #3f5a93;
+	border-color: #3f5a93
+}
+
+.blue-btn:hover {
+	color: #2972cc;
+	border-color: #2972cc;
+	background: #f0f5ff
+}
+
+.blue-btn.disabled {
+	cursor: default;
+	color: #a6a6a6;
+	border-color: #a6a6a6;
+	background: 0 0
+}
+
+.blue-btn .la-ball-spin-clockwise {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -8px 0 0 -8px
+}
+
+.blue-btn .la-ball-spin-clockwise i {
+	background-color: #3f5a93
+}
+
+.in-shelf {
+	cursor: default;
+	color: #a6a6a6;
+	border-color: #a6a6a6
+}
+
+.in-shelf:hover {
+	color: #a6a6a6;
+	border-color: #a6a6a6;
+	background: 0 0
+}
+
+.grey-btn {
+	position: relative;
+	z-index: 1;
+	text-align: center;
+	color: #1a1a1a;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ccc;
+	border-color: rgba(0, 0, 0, .2);
+	background: #fbfbfb;
+	background: rgba(255, 255, 255, .5)
+}
+
+.grey-btn:hover {
+	color: #1a1a1a
+}
+
+.grey-btn.disabled {
+	cursor: default;
+	color: #a6a6a6;
+	border-color: #a6a6a6;
+	background: 0 0
+}
+
+.red-radius-btn {
+	font: 14px/34px PingFangSC-Regular, '-apple-system', Simsun;
+	position: relative;
+	z-index: 1;
+	display: block;
+	width: 140px;
+	height: 34px;
+	margin: 20px auto 3px;
+	text-align: center;
+	color: #fff;
+	border-radius: 20px;
+	background-color: #bf2c24
+}
+
+.red-radius-btn .iconfont {
+	font-size: 16px;
+	display: inline-block;
+	min-width: 16px;
+	margin: -3px 5px 0 0;
+	vertical-align: middle;
+	color: #fff;
+	-webkit-text-stroke-width: 0
+}
+
+.red-radius-btn:hover {
+	color: #fff;
+	background: #ed4259
+}
+
+.red-radius-btn.disabled {
+	cursor: default;
+	background-color: #a6a6a6
+}
+
+.red-radius-btn .la-ball-spin-clockwise {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -8px 0 0 -6px
+}
+
+:root .blue-btn.btn-loading, :root .red-btn.btn-loading, :root .red-radius-btn.btn-loading
+	{
+	cursor: default;
+	text-indent: -9999em
+}
+
+:root .red-btn.btn-loading:hover, :root .red-radius-btn.btn-loading:hover
+	{
+	background: #bf2c24
+}
+
+:root .blue-btn.btn-loading:hover {
+	background: 0 0
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.AuthorDao">
+
+	<resultMap type="Author" id="authorMap">
+		<collection property="novellist" column="authorid"
+			select="jsdx.zr.dao.NovelDao.findNovelByAuthorid" />
+	</resultMap>
+	
+	<select id="findAuthorByName" parameterType="map" resultType="Author">
+		SELECT * FROM t_author
+		<where>
+			<if test="name !=null">
+				authorname like #{name}
+			</if>
+		</where>
+		<if test="begin !=null">
+		LIMIT #{begin},#{end}
+		</if>
+	</select>
+
+	<select id="findAuthorById" parameterType="int" resultType="Author">
+		SELECT * FROM t_author where authorid = #{id}
+	</select>
+	
+	<insert id="add" parameterType="Author" useGeneratedKeys="true"
+		keyProperty="authorid">
+		insert into t_author(authorname,authorintroduce) values(#{authorname},#{authorintroduce})
+	</insert>
+</mapper> 

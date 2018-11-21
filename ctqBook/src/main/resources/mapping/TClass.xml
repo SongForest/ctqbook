@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.TClassDao">
+	<resultMap type="TClass" id="tclassMap">
+		<association property="type_id" column="type_id"
+			select="jsdx.zr.dao.TypeDao.findTypeById" />
+	</resultMap>
+
+	<select id="findTClass" parameterType="map" resultMap="tclassMap">
+		select *
+		from t_class
+		<where>
+			<if test="typeid != null and typeid !=0">
+				type_id = #{typeid}
+			</if>
+			<if test="classid != null and classid !=0">
+				and classesid = #{classid}
+			</if>
+		</where>
+		limit #{begin},#{end}
+	</select>
+
+	<select id="findTClassById" parameterType="int" resultMap="tclassMap">
+		select
+		* from t_class where classesid = #{id}
+	</select>
+</mapper> 

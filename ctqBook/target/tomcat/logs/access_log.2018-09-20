@@ -1,0 +1,10 @@
+0:0:0:0:0:0:0:1 - - [20/Sep/2018:10:52:24 +0800] "GET /ctq HTTP/1.1" 404 957 http-bio-8080-exec-1 61
+0:0:0:0:0:0:0:1 - - [20/Sep/2018:10:52:24 +0800] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-3 0
+0:0:0:0:0:0:0:1 - - [20/Sep/2018:10:52:58 +0800] "GET /ctqBook HTTP/1.1" 404 - http-bio-8080-exec-2 0
+0:0:0:0:0:0:0:1 - - [20/Sep/2018:10:52:58 +0800] "GET /ctq HTTP/1.1" 404 957 http-bio-8080-exec-5 2
+0:0:0:0:0:0:0:1 - - [20/Sep/2018:10:53:03 +0800] "GET /ctq/index.jsp HTTP/1.1" 200 13411 http-bio-8080-exec-6 3
+0:0:0:0:0:0:0:1 - - [20/Sep/2018:10:53:03 +0800] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-4 0
+0:0:0:0:0:0:0:1 - - [20/Sep/2018:10:53:08 +0800] "GET /ctq/index.jsp HTTP/1.1" 304 - http-bio-8080-exec-7 2
+0:0:0:0:0:0:0:1 - - [20/Sep/2018:10:53:08 +0800] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-8 0
+0:0:0:0:0:0:0:1 - - [20/Sep/2018:10:53:14 +0800] "GET /ctq/index.jsp HTTP/1.1" 304 - http-bio-8080-exec-9 2
+0:0:0:0:0:0:0:1 - - [20/Sep/2018:10:53:14 +0800] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-10 0

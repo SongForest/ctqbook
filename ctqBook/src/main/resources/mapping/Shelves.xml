@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.ShelvesDao">
+	<resultMap type="Shelves" id="ShelvesMap">
+		<association property="novel" column="novelid"
+			select="jsdx.zr.dao.NovelDao.findNovelById" />
+		<association property="user" column="user_id"
+			select="jsdx.zr.dao.UserDao.findUserById" />
+	</resultMap>
+
+	<select id="findShelves" parameterType="map" resultMap="ShelvesMap">
+		select a.*
+		from t_shelves a LEFT JOIN t_novel b ON a.novelid=b.novelid
+		where user_id=#{userid}
+		and a.status = 0
+		order by b.last_date
+		<if test="begin != null">
+			limit #{begin},#{end}
+		</if>
+	</select>
+
+	<select id="add" parameterType="Shelves" statementType="CALLABLE">
+		{call
+		add_shelves(#{userid,mode=IN,jdbcType=INTEGER},#{novelid,mode=IN,jdbcType=INTEGER},#{ret,mode=OUT,jdbcType=INTEGER})}
+	</select>
+
+	<select id="del" parameterType="int" statementType="CALLABLE">
+		{call
+		adel_shelves(#{id,mode=IN,jdbcType=INTEGER})}
+	</select>
+</mapper> 

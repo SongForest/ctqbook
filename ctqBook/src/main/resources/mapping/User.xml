@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.UserDao">
+	<resultMap type="User" id="userMap">
+		<association property="level" column="level"
+			select="jsdx.zr.dao.LevelDao.findLevelById" />
+	</resultMap>
+	<!-- 这个元素可以被用来重新定义可以在其他sql语句重新引用 -->
+	<sql id="s">
+		select * from t_user
+	</sql>
+
+	<select id="findUserByNickName" resultMap="userMap"
+		parameterType="map">
+		<include refid="s" />
+		<where>
+			<if test="name!=null">
+				nickname = #{name} AND
+			</if>
+			<if test="nickname!=null">
+				nickname like #{nickname} AND
+			</if>
+			status= 0
+		</where>
+		limit #{begin},#{end}
+	</select>
+
+	<select id="findUserById" parameterType="int" resultMap="userMap">
+		<include refid="s" />
+		where userID = #{id} AND status= 0
+	</select>
+
+	<select id="findUserByName" parameterType="java.lang.String"
+		resultMap="userMap">
+		<include refid="s" />
+		where userName = #{name} and status= 0
+	</select>
+
+	<select id="findUserByEmail" parameterType="java.lang.String"
+		resultMap="userMap">
+		<include refid="s" />
+		where email = #{email} and status= 0
+	</select>
+
+
+
+	<!-- useGeneratedKeys="true" keyProperty="id" 这两个属性是获取自动增长之，并保存到实体对象的ID属性中 -->
+	<insert id="addUser" parameterType="User">
+		INSERT INTO t_user (userID,
+		userName, email, user_type, nickname, status,password)
+		VALUES (null, #{userName},  #{email},
+		0,
+		#{nickname}, 0,#{password});
+	</insert>
+
+	<update id="update" parameterType="User">
+		UPDATE t_user
+		<set>
+			<if test="userName != null">userName=#{userName},</if>
+			<if test="head_thumb != null">head_thumb=#{head_thumb}</if>
+			<if test="level != null">level=#{level.level}</if>
+			<if test="amount_downloads != null and amount_downloads !=0">amount_downloads=#{amount_downloads}-1,</if>
+			<if test="points != null and points != 0">points=#{points}-1,</if>
+			<if test="ticket != null and ticket != 0">ticket=#{ticket}-1,</if>
+			<if test="experience != null and experience != 0">experience=#{experience}</if>
+			<if test="last_date != null">last_date=#{last_date}</if>
+			<if test="email != null">email=#{email},</if>
+			<if test="user_type != null and user_type != 0">user_type=#{user_type}</if>
+			<if test="password != null">password=#{password}</if>
+			<if test="nickname != null">nickname=#{nickname},</if>
+			<if test="userSex != null">userSex=#{userSex},</if>
+			<if test="userSign != null">userSign=#{userSign}</if>
+		</set>
+		WHERE (userID=#{userID});
+	</update>
+
+	<update id="delUser" parameterType="int">
+		UPDATE t_user SET status= 1
+		WHERE (userID=#{id});
+	</update>
+
+
+</mapper> 

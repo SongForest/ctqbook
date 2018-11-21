@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.ClickDao">
+	<select id="findClick" parameterType="map" resultType="int">
+		select count(1) from t_click 
+		<where>
+			user_id = #{userid} and novelid =#{novelid}
+			<if test="click == 1"> and to_days(create_date) = to_days(now());</if>
+		</where>
+	</select>
+	
+	<insert id="add" parameterType="map">
+		insert into t_click(user_id,novelid) values(#{userid},#{novelid})
+	</insert>
+</mapper> 

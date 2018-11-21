@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.HistoryDao">
+
+	<resultMap type="History" id="HistoryMap">
+		<association property="novel" column="novelid"
+			select="jsdx.zr.dao.NovelDao.findNovelById" />
+		<association property="user" column="user_id"
+			select="jsdx.zr.dao.UserDao.findUserById" />
+		<association property="section" column="sectionid"
+			select="jsdx.zr.dao.SectionInfoDao.findSectionInfoById" />
+	</resultMap>
+	<select id="findHistory" parameterType="map" resultMap="HistoryMap">
+		select *
+		from t_history where user_id = #{userid} and novelid = #{novelid}
+	</select>
+
+	<select id="findHistoryById" parameterType="int">
+		select * from
+		t_history where user_id = #{userid}
+	</select>
+
+	<insert id="add" parameterType="History">
+		insert into
+		t_history(user_id,novelid,sectionid)
+		values(#{user.userID},#{novel.novelid},#{section.sectionid})
+	</insert>
+
+	<update id="update" parameterType="History">
+		update t_history
+		<set>
+			<if test="section.sectionid != 0">
+				sectionid = #{section.sectionid}
+			</if>
+		</set>
+		where his_id =#{his_id}
+	</update> 
+
+	
+	
+</mapper> 

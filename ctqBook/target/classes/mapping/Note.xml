@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.NoteDao">
+	<select id="findNoteById" parameterType="int" resultType="Note">
+		select
+		* from t_note where note_id = #{id}
+	</select>
+
+	<insert id="add" parameterType="Note" useGeneratedKeys="true"
+		keyProperty="note_id">
+		insert into t_note(note_id,novelid,title)
+		values(null,#{novel.novelid},#{title})
+	</insert>
+</mapper> 

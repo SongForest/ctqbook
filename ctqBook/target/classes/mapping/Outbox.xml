@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.OutboxDao">
+<resultMap type="Outbox" id="outboxMap">
+	<association property="outbox_sender" column="userID" select="jsdx.zr.dao.UserDao.findUserById"/>
+</resultMap>
+	<select id="findAll" resultMap="outboxMap" parameterType="map">
+		select outbox_title,outbox_content,Last_date,manstatus from t_outbox
+	</select>
+	<insert id="add" parameterType="Outbox">
+		INSERT INTO t_outbox (outbox_sender,outbox_title,Last_date,outbox_content)
+		VALUES(#{outbox_sender.userID},#{outbox_title},#{last_date},#{outbox_content})
+	</insert>
+</mapper>

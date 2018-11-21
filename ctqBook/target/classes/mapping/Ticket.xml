@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.TicketDao">
+	<resultMap type="Ticket" id="TicketMap">
+		<association property="novelid" column="novelid"
+			select="jsdx.zr.dao.NovelDao.findNovelById" />
+		<association property="user" column="user_id"
+			select="jsdx.zr.dao.UserDao.findUserById" />
+	</resultMap>
+	<select id="findTicket" parameterType="map" resultMap="TicketMap">
+		select *
+		from t_ticket where user_id = #{userid} and novelid =#{novelid}
+	</select>
+
+	<insert id="add" parameterType="map">
+		insert into
+		t_ticke(user_id,novelid,ticnum)
+		values(#{user.userID},#{novelid.novelid},#{ticnum})
+	</insert>
+</mapper> 

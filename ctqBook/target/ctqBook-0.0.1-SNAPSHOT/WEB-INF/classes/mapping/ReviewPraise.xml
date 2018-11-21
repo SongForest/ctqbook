@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.ReviewPraiseDao">
+
+	<select id="findReviewPraise" parameterType="map" resultType="int">
+		select count(1) from t_review_praise where review_id =#{reviewid} and user_id
+		= #{userid} and status = 0
+	</select>
+
+	<select id="add" parameterType="map" statementType="CALLABLE">
+		{call
+		add_review_praise(#{userid,mode=IN,jdbcType=INTEGER},#{reviewid,mode=IN,jdbcType=INTEGER})}
+	</select>
+
+</mapper> 

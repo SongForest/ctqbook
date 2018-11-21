@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.SectionInfoDao">
+	<resultMap type="SectionInfo" id="SectionInfoMap">
+		<association property="volume_class" column="volume_classid"
+			select="jsdx.zr.dao.VolumeClassInfoDao.findVolumeClassInfoById" />
+	</resultMap>
+	<select id="findSectionInfoByVolumeId" parameterType="int"
+		resultMap="SectionInfoMap">
+		select * from t_sectioninfo where
+		volume_classid = #{volid}
+	</select>
+
+	<select id="findSectionInfoById" parameterType="int" resultMap="SectionInfoMap">
+		select * from t_sectioninfo where
+		sectionid =#{id}
+	</select>
+	
+	<select id="findpartSectionInfoByNovelId" parameterType="int"
+		resultMap="SectionInfoMap">
+		select b.* from t_volume_classinfo a INNER JOIN
+		t_sectioninfo b ON a.volume_classid=b.volume_classid where
+		a.novelid
+		=#{novelid} order by b.sectionid desc
+		limit 0,12
+	</select>
+	
+	<select id="findLastSectionInfoByNovelId" parameterType="map"
+		resultMap="SectionInfoMap">
+		select b.* from t_volume_classinfo a INNER JOIN
+		t_sectioninfo b ON a.volume_classid=b.volume_classid where
+		a.novelid =#{novelid} and b.sectionid &lt; #{sectionid} order by b.create_date desc
+		limit 0,1
+	</select>
+	
+	<select id="findNextSectionInfoByNovelId" parameterType="map"
+		resultMap="SectionInfoMap">
+		select b.* from t_volume_classinfo a INNER JOIN
+		t_sectioninfo b ON a.volume_classid=b.volume_classid where
+		a.novelid =#{novelid} and b.sectionid &gt; #{sectionid} 
+		limit 0,1
+	</select>
+
+
+
+	<select id="findSectionInfo" parameterType="Map" resultMap="SectionInfoMap">
+		select b.* from t_volume_classinfo a INNER JOIN
+		t_sectioninfo b ON
+		a.volume_classid=b.volume_classid
+		<where>
+			<if test="novelid != null">a.novelid =#{novelid}</if>
+			<if test="rstatus != null">and b.readstatus =#{rstatus}</if>
+		</where>
+		<if test="begin!=null and end !=null">limit #{begin},{end}</if>
+	</select>
+
+	<insert id="add" parameterType="SectionInfo">
+		insert into
+		t_sectioninfo(volume_classid,sectionname,sectioncontext,numbercount)
+		values(#{volume_class.volume_classid},#{sectionname},#{sectioncontext},#{numbercount})
+	</insert>
+
+	<update id="update" parameterType="SectionInfo">
+		update t_sectioninfo
+		<set>
+			<if test="sectionname != null">sectionname = #{sectionname},</if>
+			<if test="sectioncontext != null">sectioncontext = #{sectioncontext},</if>
+			<if test="numbercount != null">numbercount = #{numbercount}</if>
+			<if test="readstatus != 0">,readstatus = 1</if>
+		</set>
+		where sectionid = #{sectionid}
+	</update>
+</mapper> 

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jsdx.zr.dao.NovelDao">
+	<resultMap type="Novel" id="novelMap">
+		<association property="author" column="authorid"
+			select="jsdx.zr.dao.AuthorDao.findAuthorById" />
+		<association property="novelclasses" column="novelclassesid"
+			select="jsdx.zr.dao.TClassDao.findTClassById" />
+		<association property="sectionid" column="sectionid"
+			select="jsdx.zr.dao.SectionInfoDao.findSectionInfoById" />
+	</resultMap>
+
+	<sql id="fin">
+		select * from t_novel
+		where del_status = 0
+	</sql>
+	<select id="findNovel" parameterType="map" resultMap="novelMap">
+		select n.* from t_novel n
+		<if test="order == 6 or order == 7">left join t_click c on c.novelid=n.novelid</if>
+		<if test="order == 8 or order == 9">left join t_ticke t on n.novelid=t.novelid</if>
+		where del_status = 0
+		<if test="name != null">
+			and novelname like #{name}
+		</if>
+		<if test="typeid != null and  typeid != 0">
+			and novelclassesid in (select classesid from t_class where
+			type_id = #{typeid} )
+		</if>
+		<if test="classid != null and classid != 0">
+			and novelclassesid = #{classid}
+		</if>
+
+		<if test="nuvelstatus !=null and nuvelstatus !=-1">and novelstatus = #{nuvelstatus}</if>
+
+		<if test="time == 1">and date(last_date)&gt;=DATE_SUB(CURDATE(),INTERVAL 3 DAY)
+		</if>
+		<if test="time == 2">and date(last_date)&gt;=DATE_SUB(CURDATE(),INTERVAL 7 DAY)
+		</if>
+		<if test="time == 3">and date(last_date)&gt;=DATE_SUB(CURDATE(),INTERVAL 15
+			DAY)
+		</if>
+		<if test="time == 4">and date(last_date)&gt;=DATE_SUB(CURDATE(),INTERVAL 30
+			DAY)
+		</if>
+		<if test="order == 6">and date(c.create_date)&gt;=DATE_SUB(CURDATE(),INTERVAL 30
+			DAY)
+		</if>
+		<if test="order == 7">and date(c.create_date)&gt;=DATE_SUB(CURDATE(),INTERVAL 7
+			DAY)
+		</if>
+		<if test="order == 8">and date(t.create_date)&gt;=DATE_SUB(CURDATE(),INTERVAL 30
+			DAY)
+		</if>
+		<if test="order == 9">and date(t.create_date)&gt;=DATE_SUB(CURDATE(),INTERVAL 7
+			DAY)
+		</if>
+
+		group by n.novelid
+		ORDER BY
+		<if test="order == 1">create_date desc,</if>
+		<if test="order == 2">clickcount desc,</if>
+		<if test="order == 3">votingcount desc,</if>
+		<if test="order == 4">collect desc,</if>
+		<if test="order == 5">numcount desc,</if>
+		<if test="order &gt;5 and 9 &gt;= order ">
+			count(1) desc,
+		</if>
+		last_date desc
+		<if test="begin != null">
+			limit #{begin},#{end}
+		</if>
+	</select>
+
+
+	<select id="getCount" resultType="int">
+		select count(*) from t_novel
+	</select>
+
+
+	<select id="findNovelById" parameterType="int" resultMap="novelMap">
+		<include refid="fin" />
+		and novelid = #{id}
+	</select>
+
+	<select id="findNovelByAuthorid" parameterType="int" resultMap="novelMap">
+		<include refid="fin" />
+		and authorid = #{authorid}
+	</select>
+
+	<update id="update" parameterType="Novel">
+		update t_novel()
+		<set>
+			<if test="novelname != null">novelname=#{novelname}</if>
+			<if test="novelstatus != null and ticket != 0">novelstatus=1</if>
+			<if test="votingcount != null and votingcount != 0">votingcount=#{votingcount}</if>
+			<if test="clickcount != null and clickcount != 0">clickcount=#{clickcount}</if>
+			<if test="collect != null and collect != 0">collect=#{collect}</if>
+		</set>
+		where novelid = #{novelid}
+	</update>
+
+	<insert id="add"  parameterType="Novel" useGeneratedKeys="true"
+		keyProperty="novelid">
+		INSERT INTO t_novel (novelid,
+		novelname, novelsynopsis, novelimg, authorid, novelclassesid) VALUES
+		(null, #{novelname},#{novelsynopsis},
+		#{novelimg},#{author.authorid},#{novelclasses.classesid});
+	</insert>
+</mapper> 
